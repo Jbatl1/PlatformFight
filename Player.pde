@@ -132,35 +132,54 @@ class Player {
     movingRight = false;
   }
   
-  void update() {
-    if (movingRight) {
-      if (facingRight) {
-        x += walkSpeed;
-      } else {
-        x -= walkSpeed;
-      }
-      
-      y += yVelocity;
-      yVelocity += fallSpeed * 0.2;
-      
-      // Simple ground (for now)
-      if (y >= 400) { // ground level
-        y = 400;
+  void update(Platform[] platforms) {
+    // Apply gravity
+    y += yVelocity;
+    yVelocity += fallSpeed * 0.2;
+  
+    onGround = false;
+  
+    for (Platform p : platforms) {
+      // Player edges
+      float playerLeft = x - pWidth/2;
+      float playerRight = x + pWidth/2;
+      float playerBottomPrev = y - yVelocity + pHeight/2; // previous bottom
+      float playerBottom = y + pHeight/2; // current bottom
+  
+      boolean withinX = (playerRight > p.left && playerLeft < p.right);
+      boolean falling = (yVelocity >= 0);
+  
+      // Collision if player was above platform and now intersecting
+      if (withinX && falling && playerBottomPrev <= p.top && playerBottom >= p.top) {
+        // Snap player to platform top
+        y = p.top - pHeight/2;
         yVelocity = 0;
         onGround = true;
-      
-        // Return to idle/walk after jump
+  
+        // If jumping, reset to idle/walk
         if (state == 2) {
           state = movingRight ? 1 : 0;
         }
       }
     }
-
+  
+    // Movement (not during attack)
+    if (state != 3) {
+      if (movingRight) {
+        if (facingRight) {
+          x += walkSpeed;
+        } else {
+          x -= walkSpeed;
+        }
+      }
+    }
+  
+    // State logic
     if (state != 2 && state != 3) {
       if (movingRight) {
-        state = 1; // walking
+        state = 1;
       } else {
-        state = 0; // idle
+        state = 0;
       }
     }
   }
