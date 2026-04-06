@@ -1,27 +1,38 @@
 class Platform {
   PImage image;
-  int wide;
-  int tall;
-  float x;
-  float y;
-  float top;
-  float bottom;
-  float left;
-  float right;
-  
-  Platform(float x, float y) {
-    this.image = loadImage("Platform.png");
-    this.wide = 529;
-    this.tall = 29;
+  float x, y;
+  float wide, tall;
+
+  float left, right, top, bottom;
+
+  Platform(PImage img, float x, float y) {
+    this.image = img;
     this.x = x;
     this.y = y;
-    this.top = y - (tall / 2);
-    this.bottom = y + (tall / 2);
-    this.left = x - (wide / 2);
-    this.right = x + (wide / 2);
+
+    float scale = 0.1;
+    this.wide = image.width * scale;
+    this.tall = image.height * scale;
+
+    updateBounds();
   }
-  
+
+  void updateBounds() {
+    float hitboxWidth = 120; // adjust manually
+    float hitboxHeight = 20;
+    
+    left = x - hitboxWidth / 2;
+    right = x + hitboxWidth / 2;
+    top = y - hitboxHeight / 2;
+    bottom = y + hitboxHeight / 2;
+  }
+
   void display() {
+    imageMode(CENTER);
     image(image, x, y, wide, tall);
+    
+    noFill();
+    stroke(255, 0, 0);
+    rect(x, y, 120, 20);
   }
 }

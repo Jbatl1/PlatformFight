@@ -106,15 +106,23 @@ class Player {
 
     sketch.pushMatrix();
 
+    // Move origin to player center
+    sketch.translate(x, y);
+    
+    // Flip if facing left
     if (!facingRight) {
-      sketch.translate(x + pWidth, y);
       sketch.scale(-1, 1);
-      sketch.image(currentAnimation[frameIndex], 0, 0, pWidth, pHeight);
-    } else {
-      sketch.image(currentAnimation[frameIndex], x, y, pWidth, pHeight);
     }
-  
+    
+    // Draw centered at (0,0)
+    sketch.image(currentAnimation[frameIndex], 0, 0, pWidth, pHeight);
+    
     sketch.popMatrix();
+    
+    sketch.noFill();
+    sketch.stroke(0, 255, 0);
+    sketch.rectMode(CENTER);
+    sketch.rect(x, y, pWidth, pHeight);
   }
   
 
