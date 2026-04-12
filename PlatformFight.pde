@@ -12,8 +12,9 @@ boolean firstLaunch = true;
 int score;
 int time;
 int maxScore;
-int lastIndex; 
+int lastIndex;
 void setup() {
+  Sound.volume(.2);
   lastIndex = -1;
   maxScore = 15;
   score = 0;
@@ -49,7 +50,7 @@ void draw() {
     player.display();
   
     
-    if (frameCount % 120 == 0) { // every ~2 seconds
+    if (frameCount % 120 == 0) { // every 2 seconds
       spawnEnemy();
     }
   
@@ -61,23 +62,23 @@ void draw() {
         e.move();
       }
     
-      
-      if (e.hits(player) && e.state != 1) {
-        e.state = 1;
-        e.frameIndex = 0;
-      }
-      e.display(this);
-    
       if (e.hits(player)) {
+        if (e.state != 1) { 
+          e.state = 1;
+          e.frameIndex = 0;
+          Sound.volume(.1);
+          e.attackSound.play(); 
+        }
+        
         gameStart = player.reduceHealth();
-        e.state = 1;
         e.facePlayer(player);
       }
-      
-      
+    
+      e.display(this);
+    
       if (player.hitsEnemy(e)) {
         enemies.remove(i);
-        score += e.points;;
+        score += e.points;
       }
     }
     

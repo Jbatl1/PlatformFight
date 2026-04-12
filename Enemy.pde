@@ -1,9 +1,10 @@
 import gifAnimation.*;
+import processing.sound.*;
 
 class Enemy {
   PImage[] idle;
   PImage[] attack;
-
+  SoundFile attackSound;
   Platform platform;
 
   float x, y;
@@ -40,6 +41,8 @@ class Enemy {
     this.platform = platform;
     this.x = random(platform.left, platform.right);
     this.y = platform.top - (this.eHeight / 2); 
+    
+    this.attackSound = new SoundFile(sketch, "enemyAttack.mp3");
     
     this.speed = 1;
     this.movingRight = random(1) > 0.5;

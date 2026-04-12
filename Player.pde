@@ -1,5 +1,5 @@
 import gifAnimation.*;
-
+import processing.sound.*;
 class Player {
   float x;
   float y;
@@ -9,6 +9,7 @@ class Player {
   PImage[] walk;
   PImage[] jump;
   PImage[] attack;
+  SoundFile attackSound;
   PImage heart;
   float walkSpeed;
   float fallSpeed;
@@ -67,6 +68,7 @@ class Player {
     this.lives = 3;
     this.heart = loadImage("Heart.png");
     this.lastHit = 0;
+    this.attackSound = new SoundFile(sketch, "playerAttack.mp3");
   }
 
   void display() {
@@ -225,6 +227,8 @@ class Player {
   }
   
   void attack() {
+    Sound.volume(.2);
+    this.attackSound.play();
     state = 3;
   }
   
@@ -272,7 +276,6 @@ class Player {
     float eRight = e.x + e.hitboxWidth/2;
     float eTop = e.y - e.hitboxHeight/2;
     float eBottom = e.y + e.hitboxHeight/2;
-  
     return !(aRight < eLeft || aLeft > eRight || aBottom < eTop || aTop > eBottom);
   }
   
