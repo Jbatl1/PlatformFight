@@ -5,8 +5,8 @@ class Platform {
 
   float left, right, top, bottom;
 
-  Platform(PImage img, float x, float y) {
-    this.image = img;
+  Platform(float x, float y) {
+    this.image = loadImage("Platform.png");
     this.x = x;
     this.y = y;
 
@@ -18,7 +18,7 @@ class Platform {
   }
 
   void updateBounds() {
-    float hitboxWidth = 120; // adjust manually
+    float hitboxWidth = 120; 
     float hitboxHeight = 20;
     
     left = x - hitboxWidth / 2;
@@ -30,9 +30,5 @@ class Platform {
   void display() {
     imageMode(CENTER);
     image(image, x, y, wide, tall);
-    
-    noFill();
-    stroke(255, 0, 0);
-    rect(x, y, 120, 20);
   }
 }
