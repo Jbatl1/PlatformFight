@@ -101,7 +101,6 @@ void draw() {
     }
     else if (firstLaunch) {
       text("Welcome to Platform Fight", width/2, height/4);
-      firstLaunch = false;
     }
     else {
       text("GAME OVER", width/2, height/4);
@@ -139,6 +138,7 @@ void mousePressed() {
       player = new Player(this);
       time = 0;
       score = 0;
+      firstLaunch = false;
     }
     else {
       player.attack();
